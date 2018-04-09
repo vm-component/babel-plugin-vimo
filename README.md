@@ -105,6 +105,11 @@ Via `.babelrc` or babel-loader.
 
 `${libraryName}/${libraryDirectory}/${transformedMethodName}/${fileName}`
 
+**注意:**
+
+- `themes.themeExt` 如果未定义，则由 `style` 定义，如果 `style` 也没给则为 `'css'`。
+- `themes`必须提供，如果没提供，则组件本身是没皮肤的。
+
 ### style
 
 * `["vimo", { "libraryName": "vimo" }]`: import js modularly
