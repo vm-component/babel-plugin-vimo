@@ -2,15 +2,15 @@
 
 var _react = _interopRequireDefault(require("react"));
 
-require("antd/lib/button/style");
+require("antd/lib/button/button.css");
 
-var _button = _interopRequireDefault(require("antd/lib/button"));
+var _button2 = _interopRequireDefault(require("antd/lib/button"));
 
-require("antd/lib/message/style");
+require("antd/lib/message/message.css");
 
-var _message2 = _interopRequireDefault(require("antd/lib/message"));
+var _message3 = _interopRequireDefault(require("antd/lib/message"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-(0, _message2.default)('xxx');
-ReactDOM.render(_react.default.createElement("div", null, _react.default.createElement(_button.default, null, "xxxx")));
+(0, _message3.default)('xxx');
+ReactDOM.render(_react.default.createElement("div", null, _react.default.createElement(_button2.default, null, "xxxx")));

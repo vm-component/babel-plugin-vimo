@@ -23,22 +23,18 @@ export default function ({ types }) {
       if (!plugins) {
         if (Array.isArray(opts)) {
           plugins = opts.map(({
-            libraryName,
-            libraryDirectory,
-            style,
-            camel2DashComponentName,
-            camel2UnderlineComponentName,
-            fileName,
-            themes,
-            customName,
-          }) => {
+                                libraryName = 'vimo',
+                                libraryDirectory,
+                                style,
+                                fileName,
+                                themes,
+                                customName,
+                              }) => {
             assert(libraryName, 'libraryName should be provided');
             return new Plugin(
               libraryName,
               libraryDirectory,
               style,
-              camel2DashComponentName,
-              camel2UnderlineComponentName,
               fileName,
               themes,
               customName,
@@ -52,8 +48,6 @@ export default function ({ types }) {
               opts.libraryName,
               opts.libraryDirectory,
               opts.style,
-              opts.camel2DashComponentName,
-              opts.camel2UnderlineComponentName,
               opts.fileName,
               opts.themes,
               opts.customName,

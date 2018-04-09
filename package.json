@@ -1,7 +1,7 @@
 {
   "name": "babel-plugin-vimo",
   "version": "1.0.0",
-  "description": "Component modular import plugin for babel.",
+  "description": "Vimo Components import plugin for babel.",
   "repository": {
     "type": "git",
     "url": "https://github.com/vm-component/babel-plugin-vimo"

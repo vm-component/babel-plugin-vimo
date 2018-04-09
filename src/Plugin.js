@@ -6,11 +6,6 @@ function camel2Dash(_str) {
   return str.replace(/([A-Z])/g, ($1) => `-${$1.toLowerCase()}`);
 }
 
-function camel2Underline(_str) {
-  const str = _str[0].toLowerCase() + _str.substr(1);
-  return str.replace(/([A-Z])/g, ($1) => `_${$1.toLowerCase()}`);
-}
-
 function winPath(path) {
   return path.replace(/\\/g, '/');
 }
@@ -19,8 +14,6 @@ export default class Plugin {
   constructor(libraryName,
               libraryDirectory,
               style,
-              camel2DashComponentName,
-              camel2UnderlineComponentName,
               fileName,
               themes,
               customName,
@@ -28,14 +21,10 @@ export default class Plugin {
     this.specified = null;
     this.libraryObjs = null;
     this.selectedMethods = null;
-    this.libraryName = libraryName;
+    this.libraryName = libraryName || 'vimo';
     this.libraryDirectory = typeof libraryDirectory === 'undefined'
       ? 'lib'
       : libraryDirectory;
-    this.camel2DashComponentName = typeof camel2DashComponentName === 'undefined'
-      ? true
-      : camel2DashComponentName;
-    this.camel2UnderlineComponentName = camel2UnderlineComponentName;
     this.style = style || false;
     this.fileName = fileName || '';
     this.themes = themes || null; // str/array
@@ -46,12 +35,10 @@ export default class Plugin {
   importMethod(methodName, file) {
     if (!this.selectedMethods[methodName]) {
       const libraryDirectory = this.libraryDirectory;
-      const style = this.style;
-      const transformedMethodName = this.camel2UnderlineComponentName  // eslint-disable-line
-        ? camel2Underline(methodName)
-        : this.camel2DashComponentName
-          ? camel2Dash(methodName)
-          : methodName;
+
+      const style = (typeof this.style === 'boolean' && this.style) ? 'css' : this.style;
+
+      const transformedMethodName = camel2Dash(methodName);
       const path = winPath(
         this.customName ? this.customName(transformedMethodName) : join(this.libraryName, libraryDirectory, transformedMethodName, this.fileName) // eslint-disable-line
       );
@@ -61,7 +48,7 @@ export default class Plugin {
         if (Array.isArray(this.themes)) {
           this.themes.forEach(item => {
             const themeName = item.themeName || '';
-            const themeExt = item.themeExt || style;
+            const themeExt = item.themeExt || style || 'css';
             const symbol = item.symbol ? `.${item.symbol}` : '';
             const themeDirectory = item.themeDirectory || 'components';
             const themePath = `${themeName}/${themeDirectory}/${transformedMethodName}`;
@@ -69,21 +56,18 @@ export default class Plugin {
           });
         } else {
           const themeName = this.themes.themeName || '';
-          const themeExt = this.themes.themeExt || style;
+          const themeExt = this.themes.themeExt || style || 'css';
           const symbol = this.themes.symbol ? `.${this.themes.symbol}` : '';
           const themeDirectory = this.themes.themeDirectory || 'components';
           const themePath = `${themeName}/${themeDirectory}/${transformedMethodName}`;
           addSideEffect(file.path, `${themePath}${symbol}.${themeExt}`);
         }
       }
-
-      if (style === 'css') {
-        addSideEffect(file.path, `${path}/${transformedMethodName}.css`);
-      } else if (typeof style === 'string') {
+      if (typeof style === 'string') {
         addSideEffect(file.path, `${path}/${transformedMethodName}.${style}`);
-      } else if (typeof style === 'boolean' && style) {
-        addSideEffect(file.path, `${path}/style`);
-      } else if (typeof style === 'function') {
+      }
+
+      if (typeof style === 'function') {
         addSideEffect(file.path, style(path));
       }
     }

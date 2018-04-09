@@ -1,4 +1,4 @@
-import "antd/lib/button/style";
+import "antd/lib/button/button.css";
 import _Button from "antd/lib/button";
 import React from 'react';
 import ReactDom from 'react-dom';
